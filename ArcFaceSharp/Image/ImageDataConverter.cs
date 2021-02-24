@@ -22,7 +22,7 @@ namespace ArcFaceSharp.Image
     /// </summary>
     public  class ImageDataConverter
     {
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr destination, IntPtr source, int length);
 
         /// <summary>

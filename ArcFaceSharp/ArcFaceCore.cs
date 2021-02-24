@@ -68,8 +68,8 @@ namespace ArcFaceSharp
 
         #region DllImport
 
-        [DllImport("kernel32.dll")]
-        private static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
+        //[DllImport("kernel32.dll")]
+        //private static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
 
         #endregion
 
@@ -221,8 +221,14 @@ namespace ArcFaceSharp
                 faceNum = multiFaceInfo.faceNum
              };
  
-            CopyMemory(multiFaceInfoCopy.faceRect,multiFaceInfo.faceRect, faceRectSize);
-            CopyMemory(multiFaceInfoCopy.faceOrient, multiFaceInfo.faceOrient, faceOrientSize);
+            //CopyMemory(multiFaceInfoCopy.faceRect,multiFaceInfo.faceRect, faceRectSize);
+           // CopyMemory(multiFaceInfoCopy.faceOrient, multiFaceInfo.faceOrient, faceOrientSize);
+            unsafe
+            {
+                Buffer.MemoryCopy( multiFaceInfo.faceRect.ToPointer(), multiFaceInfoCopy.faceRect.ToPointer(), faceRectSize, faceRectSize);
+                Buffer.MemoryCopy( multiFaceInfo.faceOrient.ToPointer(), multiFaceInfoCopy.faceOrient.ToPointer(), faceOrientSize, faceOrientSize);
+
+            }
             return new MultiFaceModel(multiFaceInfoCopy);
 
         }
@@ -292,7 +298,11 @@ namespace ArcFaceSharp
                 feature = Marshal.AllocCoTaskMem(faceFeature.featureSize),
                 featureSize = faceFeature.featureSize
             };
-            CopyMemory(faceFeatureCopy.feature, faceFeature.feature,faceFeature.featureSize);
+            unsafe
+            {
+                Buffer.MemoryCopy(faceFeature.feature.ToPointer(), faceFeatureCopy.feature.ToPointer(), faceFeature.featureSize, faceFeature.featureSize);
+            }
+            //CopyMemory(faceFeatureCopy.feature, faceFeature.feature,faceFeature.featureSize);
             return faceFeatureCopy;
         }
 

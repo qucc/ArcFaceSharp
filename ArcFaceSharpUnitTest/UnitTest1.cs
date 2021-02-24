@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using ArcFaceSharp;
+﻿using ArcFaceSharp;
 using ArcFaceSharp.ArcFace;
-using ArcFaceSharp.Exceptions;
 using ArcFaceSharp.Image;
 using ArcFaceSharp.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace ArcFaceSharpUnitTest
 {
@@ -23,9 +17,9 @@ namespace ArcFaceSharpUnitTest
         {
 
             // SDK对应的 APP_ID SDK_KEY
-            string APP_ID = @"7NK7KSpfgxdqb74r8nvy36kDwH3wVGstr2LHGHBxQ8LY";
+            string APP_ID = @"DEjedXjtVLdkL5cEemsyn9ec2dVGzkXNwBqmeTbWmnAN";
 
-            string SDK_KEY = @"3fD8vKYMNfPzKHMoqppjA9chGh2aGkWzUQNFiAj7Yq63";
+            string SDK_KEY = @"AqPWspJZKhckqceoujnkkCw2cu1nk2RkPHeHrMU4XvLR";
 
             // 加载图片
             Bitmap heying = new Bitmap(@"heying.jpg");
@@ -36,8 +30,8 @@ namespace ArcFaceSharpUnitTest
             Bitmap face3 = new Bitmap(@"zxy0.jpg");
 
             // 创建 ArcFaceCore 对象，向构造函数传入相关参数进行 ArcFace 引擎的初始化
-            ArcFaceCore arcFace = new ArcFaceCore(APP_ID,SDK_KEY,ArcFaceDetectMode.IMAGE,
-                ArcFaceFunction.FACE_DETECT | ArcFaceFunction.FACE_RECOGNITION | ArcFaceFunction.AGE | ArcFaceFunction.FACE_3DANGLE | ArcFaceFunction.GENDER,DetectionOrientPriority.ASF_OP_0_ONLY,50,32);
+            ArcFaceCore arcFace = new ArcFaceCore(APP_ID, SDK_KEY, ArcFaceDetectMode.IMAGE,
+                ArcFaceFunction.FACE_DETECT | ArcFaceFunction.FACE_RECOGNITION | ArcFaceFunction.AGE | ArcFaceFunction.FACE_3DANGLE | ArcFaceFunction.GENDER, DetectionOrientPriority.ASF_OP_0_ONLY, 50, 32);
 
             // 将 Bitmap 转换成 ImageData
             ImageData heyingImgData = ImageDataConverter.ConvertToImageData(heying);
@@ -63,8 +57,8 @@ namespace ArcFaceSharpUnitTest
             ImageData faceData1 = ImageDataConverter.ConvertToImageData(face1);
 
             // 检测第一张图片中的人脸
-            MultiFaceModel multiFace1 =  arcFace.FaceDetection(faceData1);
-             
+            MultiFaceModel multiFace1 = arcFace.FaceDetection(faceData1);
+
             // 取第一张图片中返回的第一个人脸信息
             AsfSingleFaceInfo faceInfo1 = multiFace1.FaceInfoList.First();
 
@@ -115,10 +109,10 @@ namespace ArcFaceSharpUnitTest
             face1.Dispose();
             face2.Dispose();
 
-           
-         
+
+
         }
 
-     
+
     }
 }
