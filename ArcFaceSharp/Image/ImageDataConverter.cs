@@ -20,10 +20,10 @@ namespace ArcFaceSharp.Image
     /// <summary>
     /// 用来转换成ImageData
     /// </summary>
-    public  class ImageDataConverter
+    public class ImageDataConverter
     {
-        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
-        private static extern void CopyMemory(IntPtr destination, IntPtr source, int length);
+        // [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
+        // private static extern void CopyMemory(IntPtr destination, IntPtr source, int length);
 
         /// <summary>
         /// Bitmap转ImageData同时将宽度不为4的倍数的图像进行调整，注意ImageData在用完之后要用Dispose释放掉
@@ -31,7 +31,7 @@ namespace ArcFaceSharp.Image
         /// <param name="bitmap"></param>
         /// <param name="pixelFormat">图像格式 默认PixelFormat.Format24bppRgb</param>
         /// <returns></returns>
-        public static ImageData ConvertToImageData(Bitmap bitmap,PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+        public static ImageData ConvertToImageData(Bitmap bitmap, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
         {
             BitmapData bmpData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, pixelFormat);
             int width = (bitmap.Width + 3) / 4 * 4;
@@ -39,15 +39,25 @@ namespace ArcFaceSharp.Image
             IntPtr pImageData = Marshal.AllocCoTaskMem(bytesCount);
             if (width == bitmap.Width)
             {
-                CopyMemory(pImageData, bmpData.Scan0, bytesCount);
+                unsafe
+                {
+                    Buffer.MemoryCopy(bmpData.Scan0.ToPointer(), pImageData.ToPointer(), bytesCount, bytesCount);
+                }
+
+                //CopyMemory(pImageData, bmpData.Scan0, bytesCount);
 
             }
             else
             {
-                for (int i = 0; i < bitmap.Height; i++)
+                unsafe
                 {
-                    CopyMemory(IntPtr.Add(pImageData, i * width * 3), IntPtr.Add(bmpData.Scan0, i * bmpData.Stride), bmpData.Stride);
+                    for (int i = 0; i < bitmap.Height; i++)
+                    {
+                        Buffer.MemoryCopy( IntPtr.Add(bmpData.Scan0, i * bmpData.Stride).ToPointer(),IntPtr.Add(pImageData, i * width * 3).ToPointer(), bmpData.Stride,bmpData.Stride);
+                        //CopyMemory(IntPtr.Add(pImageData, i * width * 3), IntPtr.Add(bmpData.Scan0, i * bmpData.Stride), bmpData.Stride);
+                    }
                 }
+
             }
             bitmap.UnlockBits(bmpData);
             return new ImageData(width, bitmap.Height, pImageData);

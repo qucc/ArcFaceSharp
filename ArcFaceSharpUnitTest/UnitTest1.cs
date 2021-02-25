@@ -15,11 +15,13 @@ namespace ArcFaceSharpUnitTest
         [TestMethod]
         public void TestMethod1()
         {
-
             // SDK对应的 APP_ID SDK_KEY
-            string APP_ID = @"DEjedXjtVLdkL5cEemsyn9ec2dVGzkXNwBqmeTbWmnAN";
+            string APP_ID = @"DEjedXjtVLdkL5cEemsyn9ec2dVGzkXNwBqmeTbWmnANA";
 
-            string SDK_KEY = @"AqPWspJZKhckqceoujnkkCw2cu1nk2RkPHeHrMU4XvLR";
+            string SDK_KEY = @"AqPWspJZKhckqceoujnkkCw2UnSdBMBiDX3cfmsbdddhA";
+
+
+
 
             // 加载图片
             Bitmap heying = new Bitmap(@"heying.jpg");
