@@ -22,18 +22,13 @@ namespace ArcFaceSharp.ArcFace
     public static class ArcFaceApi
     {
         #region Wrapper
-
-        [DllImport("sort.so",EntryPoint="_Z9quickSortPiii")]
-	    public static extern void sort(int[] handle, int start, int stop);
-
-
         /// <summary>
         /// 激活SDK
         /// </summary>
         /// <param name="appId"></param>
         /// <param name="sdkKey"></param>
         /// <returns>0:激活成功，0x16002表示已经激活</returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFActivation")]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFActivation")]
         public static extern int ASFActivation(string appId, string sdkKey);
 
 
@@ -47,7 +42,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="combinedMask">要用到的引擎组合</param>
         /// <param name="pEngine">初始化返回的引擎handle</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFInitEngine", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFInitEngine", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFInitEngine(uint detectMode, int detectFaceOrientPriority, int detectFaceScaleVal, int detectFaceMaxNum, uint combinedMask, out IntPtr pEngine);
 
         /// <summary>
@@ -55,7 +50,7 @@ namespace ArcFaceSharp.ArcFace
         /// </summary>
         /// <param name="hEngine">引擎 handle </param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFGetVersion", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFGetVersion", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern IntPtr ASFGetVersion(IntPtr hEngine);
 
 
@@ -69,7 +64,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="pImageData">图片数据</param>
         /// <param name="faceInfo">检测到的人脸信息</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFDetectFaces", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFDetectFaces", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFDetectFaces(IntPtr pEngine, int width, int height, int format, IntPtr pImageData, out AsfMultiFaceInfo faceInfo);
 
 
@@ -85,7 +80,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="faceInfo">单张人脸位置和角度信息</param>
         /// <param name="faceFeature">人脸特征</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFFaceFeatureExtract", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFFaceFeatureExtract", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFFaceFeatureExtract(IntPtr pEngine, int width, int height, int format, IntPtr pImageData, ref AsfSingleFaceInfo faceInfo, out AsfFaceFeature faceFeature);
 
 
@@ -99,17 +94,17 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="faceFeature2">待比对的人脸特征</param>
         /// <param name="result">比对结果，置信度数值</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFFaceFeatureCompare", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFFaceFeatureCompare", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFFaceFeatureCompare(IntPtr pEngine, ref AsfFaceFeature faceFeature1, ref AsfFaceFeature faceFeature2, out float result);
 
- 
+
 
         /// <summary>
         /// 销毁引擎
         /// </summary>
         /// <param name="engine"></param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFUninitEngine", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFUninitEngine", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFUninitEngine(IntPtr engine);
 
 
@@ -128,7 +123,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="detectedFaces">检测到的人脸信息</param>
         /// <param name="combinedMask">初始化中参数combinedMask与ASF_AGE| ASF_GENDER| ASF_FACE3DANGLE的交集的子集</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFProcess", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFProcess", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFProcess(IntPtr pEngine, int width, int height, int format, IntPtr pImageData, ref AsfMultiFaceInfo detectedFaces, uint combinedMask);
 
         /// <summary>
@@ -137,7 +132,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="pEngine">引擎handle</param>
         /// <param name="ageInfo">检测到的年龄信息</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFGetAge", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFGetAge", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFGetAge(IntPtr pEngine, ref AsfAgeInfo ageInfo);
 
         /// <summary>
@@ -146,7 +141,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="pEngine">引擎handle</param>
         /// <param name="genderInfo">检测到的性别信息</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFGetGender", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFGetGender", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFGetGender(IntPtr pEngine, ref AsfGenderInfo genderInfo);
 
         /// <summary>
@@ -155,7 +150,7 @@ namespace ArcFaceSharp.ArcFace
         /// <param name="pEngine">引擎handle</param>
         /// <param name="p3DAngleInfo">检测到脸部3D 角度信息</param>
         /// <returns></returns>
-        [DllImport("libarcsoft_face_engine.so", EntryPoint = "ASFGetFace3DAngle", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libarcsoft_face_engine", EntryPoint = "ASFGetFace3DAngle", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int ASFGetFace3DAngle(IntPtr pEngine, ref AsfFace3DAngle p3DAngleInfo);
     }
 }
